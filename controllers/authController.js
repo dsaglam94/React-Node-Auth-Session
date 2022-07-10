@@ -1,16 +1,16 @@
-const userSchema = require("../models/user");
+const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
 module.exports.signup_post = async (req, res) => {
   const { user_name, email, password, name } = req.body;
   // Checking if the user is already exist
-  let isUserExist = await userSchema.exists({ user_name: user_name });
+  let isUserExist = await User.exists({ user_name: user_name });
   if (isUserExist)
     return res.json({ loggedIn: false, message: "user is already exist" });
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await userSchema.create({
+    const user = await User.create({
       name: name,
       user_name: user_name,
       password: hashedPassword,
@@ -36,7 +36,7 @@ module.exports.signup_post = async (req, res) => {
 
 module.exports.login_post = async (req, res) => {
   console.log(req.session);
-  const user = await userSchema.findOne({ user_name: req.body.user_name });
+  const user = await User.findOne({ user_name: req.body.user_name });
   if (!user) {
     return res.status(401).json({ message: "user not found" });
   }
