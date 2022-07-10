@@ -4,16 +4,18 @@ const mongoose = require("mongoose");
 const dbConnect = require("./utils/dbConnect");
 const userSchema = require("./models/user");
 const bcrypt = require("bcrypt");
+const Redis = require("ioredis");
+const RedisStore = require("connect-redis")(session);
 const cors = require("cors");
+const { RedisClient } = require("redis");
 const app = express();
 require("dotenv").config();
+
+const redisClient = new Redis();
 
 app.use(
   cors({
     origin: true,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
     credentials: true,
   })
 );
@@ -27,6 +29,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     credentials: true,
     name: "sid",
+    store: new RedisStore({ client: redisClient }),
     resave: false,
     saveUninitialized: false,
     cookie: {
