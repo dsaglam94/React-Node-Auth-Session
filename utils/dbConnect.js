@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const MONGO_URI =
-  "mongodb+srv://auth-test:81883288@cluster0.kccslk3.mongodb.net/auth-test?retryWrites=true&w=majority";
+require("dotenv").config();
 const connection = {};
 
 async function dbConnect() {
@@ -8,7 +7,7 @@ async function dbConnect() {
     return;
   }
   console.log("Connecting to the Database");
-  const db = await mongoose.connect(MONGO_URI, {
+  const db = await mongoose.connect(process.env.MONGO_URI, {
     UseNewUrlParser: true,
     useUnifiedTopology: true,
   });
