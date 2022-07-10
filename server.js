@@ -7,7 +7,6 @@ const bcrypt = require("bcrypt");
 const Redis = require("ioredis");
 const RedisStore = require("connect-redis")(session);
 const cors = require("cors");
-const { RedisClient } = require("redis");
 const app = express();
 require("dotenv").config();
 
