@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { isEmail } = require("validator");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -7,8 +8,10 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
+    required: [true, "Please enter an email"],
     unique: true,
+    lowercase: true,
+    validate: [isEmail, "Please enter a valid email"],
   },
   user_name: {
     type: String,
@@ -21,8 +24,11 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: [true, "Please enter a password"],
+    // select must be true to compare the password
+    // otherwise MongoDB returns the password === undefined
     select: true,
+    minLengt: [6, "Password can not be less than 6 characters"],
   },
 });
 

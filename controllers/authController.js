@@ -1,6 +1,9 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
+// Handle errors
+// const handleErrors = (error) => {};
+
 module.exports.signup_post = async (req, res) => {
   const { user_name, email, password, name } = req.body;
   // Checking if the user is already exist
